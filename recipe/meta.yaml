@@ -1,5 +1,4 @@
-{% set version = '1.0-13' %}
-
+{% set version = '1.0-14' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -8,37 +7,38 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: multitaper_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/multitaper_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/multitaper/multitaper_{{ version }}.tar.gz
-  sha256: 458dee8d46a068ccfb4d985cf63c905126e9d980386ec1d5f56796b6e14a6eb2
+    - {{ cran_mirror }}/src/contrib/multitaper_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/multitaper/multitaper_{{ version }}.tar.gz
+  sha256: c84c122541dc2874131446e23b212259b3b00590d701efee49e6740fd74a8d13
 
 build:
   merge_build_host: True  # [win]
-  number: 1001
-  skip: true  # [win32]
-
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('fortran') }}        # [unix]
+    - {{ compiler('c') }}              # [not win]
+    - {{ compiler('m2w64_c') }}        # [win]
+    - {{ compiler('fortran') }}        # [not win]
     - {{ compiler('m2w64_fortran') }}  # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
   host:
     - r-base
-
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:
-    - $R -e "library('multitaper')"  # [not win]
+    - $R -e "library('multitaper')"           # [not win]
     - "\"%R%\" -e \"library('multitaper')\""  # [win]
 
 about:
@@ -49,12 +49,25 @@ about:
     estimate, a coherence estimate, Thomson''s Harmonic F-test, and complex demodulation.
     The Slepians sequences are generated efficiently using a tridiagonal matrix solution,
     and jackknifed confidence intervals are available for most estimates.   '
-
   license_family: GPL3
+  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'
 
 extra:
   recipe-maintainers:
-    - johanneskoester
-    - bgruening
-    - daler
-    - jdblischak
+    - conda-forge/r
+
+# Package: multitaper
+# Version: 1.0-14
+# Title: Spectral Analysis Tools using the Multitaper Method
+# Author: Karim Rahim <karim.rahim@queensu.ca>, Wesley S. Burr <wesley.burr@gmail.com>
+# Maintainer: Karim Rahim <karim.rahim@queensu.ca>
+# Depends: R (>= 3.0), methods
+# Suggests: psd, astrochron, fftwtools, slp
+# Description: Implements multitaper spectral analysis using discrete prolate spheroidal sequences (Slepians) and sine tapers. It includes an adaptive weighted multitaper spectral estimate, a coherence estimate, Thomson's Harmonic F-test, and complex demodulation. The Slepians sequences are generated efficiently using a tridiagonal matrix solution, and jackknifed confidence intervals are available for most estimates.
+# License: GPL (>= 2)
+# ByteCompile: true
+# URL: https://github.com/krahim/multitaper/
+# NeedsCompilation: yes
+# Packaged: 2017-10-25 03:47:43 UTC; karim
+# Repository: CRAN
+# Date/Publication: 2017-10-25 07:26:22 UTC
