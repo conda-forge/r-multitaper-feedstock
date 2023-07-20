@@ -3,6 +3,7 @@ About r-multitaper-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/r-multitaper-feedstock/blob/main/LICENSE.txt)
 
+
 About r-multitaper
 ------------------
 
@@ -11,6 +12,7 @@ Home: https://github.com/krahim/multitaper/
 Package license: GPL-2.0-or-later
 
 Summary: Implements multitaper spectral analysis using discrete prolate spheroidal sequences (Slepians) and sine tapers. It includes an adaptive weighted multitaper spectral estimate, a coherence estimate, Thomson's Harmonic F-test, and complex demodulation. The Slepians sequences are generated efficiently using a tridiagonal matrix solution, and jackknifed confidence intervals are available for most estimates.   
+
 About r-multitaper
 ------------------
 
