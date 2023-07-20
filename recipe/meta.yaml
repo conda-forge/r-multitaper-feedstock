@@ -1,4 +1,4 @@
-{% set version = "1.0-16" %}
+{% set version = "1.0-17" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,7 +10,7 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/multitaper_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/multitaper/multitaper_{{ version }}.tar.gz
-  sha256: 9935dc10b0ea5e4bb6a983a3114dbf819266a2f8b37ecd14c1129a16c6a4de24
+  sha256: 3430ca62be2ee491d29b05e461647327a8977743241af2d3c39277c920170af3
 
 build:
   merge_build_host: true  # [win]
